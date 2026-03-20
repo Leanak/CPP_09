@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:13:05 by lenakach          #+#    #+#             */
-/*   Updated: 2026/03/20 18:46:21 by lenakach         ###   ########.fr       */
+/*   Updated: 2026/03/20 19:58:18 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,42 @@ PmergeMe::PmergeMe(void)
 
 PmergeMe::~PmergeMe(void)
 {
+}
+
+std::vector<size_t> buildJacobsthal(size_t n)
+{
+	std::vector<size_t> jacob;
+
+	jacob.push_back(1);
+	jacob.push_back(1);
+
+	while (jacob.back() < n)
+	{
+		size_t size = jacob.size();
+		size_t next = jacob[size - 1] + 2 * jacob[size - 2];
+		jacob.push_back(next);
+	}
+
+	return jacob;
+}
+
+std::vector<size_t> buildOrder(size_t size)
+{
+	std::vector<size_t> jacob = buildJacobsthal(size);
+	std::vector<size_t> order;
+	
+	size_t prev = 0;
+
+	for(size_t i = 1; i < jacob.size(); i++)
+	{
+		size_t curr = std::min(jacob[i], size);
+		
+		for (size_t j = prev; j < curr; j++)
+			order.push_back(j);
+		prev = curr;
+	}
+
+	return order;
 }
 
 std::deque<int> sortDeque(std::deque<int> deq)
@@ -55,11 +91,16 @@ std::deque<int> sortDeque(std::deque<int> deq)
 	//Tri recursif
 	mainChain = sortDeque(mainChain);
 
+	std::vector<size_t> order = buildOrder(pairs.size());
+	
 	for (size_t j = 0; j < pairs.size(); j++)
 	{
-		int small = pairs[j].first;
+		size_t k = order[j];
+		int small = pairs[k].first;
 
-		std::deque<int>::iterator pos = std::lower_bound(mainChain.begin(), mainChain.end(), small);
+		std::deque<int>::iterator toFind = std::lower_bound(mainChain.begin(), mainChain.end(), pairs[k].second);
+		
+		std::deque<int>::iterator pos = std::lower_bound(mainChain.begin(), toFind, small);
 
 		mainChain.insert(pos, small);
 	}
@@ -74,7 +115,7 @@ std::deque<int> sortDeque(std::deque<int> deq)
 }
 
 std::vector<int> sortVector(std::vector<int> vec)
-{
+{	
 	if (vec.size() <= 1)
 		return vec;
 		
@@ -110,12 +151,17 @@ std::vector<int> sortVector(std::vector<int> vec)
 	mainChain = sortVector(mainChain);
 
 	//insertion des b
-	for (size_t j = 0; j < pairs.size(); j++)
+	std::vector<size_t> order = buildOrder(pairs.size());
+	
+	for (size_t j = 0; j < order.size(); j++)
 	{
-		int small = pairs[j].first;
+		size_t k = order[j];
 
-		std::vector<int>::iterator pos = std::lower_bound(mainChain.begin(), mainChain.end(), small);
+		int small = pairs[k].first;
+		std::vector<int>::iterator toFind = std::lower_bound(mainChain.begin(), mainChain.end(), pairs[k].second);
+		std::vector<int>::iterator pos = std::lower_bound(mainChain.begin(), toFind, small);
 
+		//std::vector<int>::iterator pos = std::lower_bound(mainChain.begin(), mainChain.end(), small);
 		mainChain.insert(pos, small);
 	}
 
@@ -151,6 +197,7 @@ void PmergeMe::sorter(void)
 	std::cout << "Time to process a range of "
 			  << _vector.size()
 			  << " elements with std::vector: "
+			  << std::fixed << std::setprecision(2)
 			  << timeVec << " us" << std::endl;
 
 	std::cout << "Time to process a range of "
@@ -158,7 +205,6 @@ void PmergeMe::sorter(void)
 			  << " elements with std::deque: "
 			  << timeDeq << " us" << std::endl;
 }
-
 
 //-------------------------PARSING-------------------------------
 int safeAtoi(const std::string &str)

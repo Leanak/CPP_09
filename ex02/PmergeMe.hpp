@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 14:19:22 by lenakach          #+#    #+#             */
-/*   Updated: 2026/03/20 18:46:24 by lenakach         ###   ########.fr       */
+/*   Updated: 2026/03/20 19:57:52 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <iomanip>
 
 //safeatoi
 #include <sstream>
