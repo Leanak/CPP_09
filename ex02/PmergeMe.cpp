@@ -6,11 +6,27 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:13:05 by lenakach          #+#    #+#             */
-/*   Updated: 2026/03/20 19:58:18 by lenakach         ###   ########.fr       */
+/*   Updated: 2026/03/21 15:08:01 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
+
+PmergeMe &PmergeMe::operator=(const PmergeMe & other)
+{
+	if (this != &other)
+	{
+		this->_vector = other._vector;
+		this->_deque = other._deque;
+	}
+	return (*this);
+}
+
+PmergeMe::PmergeMe(const PmergeMe & other)
+{
+	this->_deque = other._deque;
+	this->_vector = other._vector;
+}
 
 PmergeMe::PmergeMe(void)
 {	

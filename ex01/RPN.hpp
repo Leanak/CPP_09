@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 12:54:32 by lenakach          #+#    #+#             */
-/*   Updated: 2026/02/23 17:54:23 by lenakach         ###   ########.fr       */
+/*   Updated: 2026/03/21 19:48:09 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,12 @@ class rpnStack
 	std::stack<int> pile;
 
   public:
+	int getSize(void) const;
 	void printprint(void);
+	void doOperation(char op);
 	void pushToStack(std::string line);
+	rpnStack &operator=(const rpnStack & other);
+	rpnStack(const rpnStack &other);
 	rpnStack(void);
 	~rpnStack(void);
 };

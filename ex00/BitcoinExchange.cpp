@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BitcoinExchange.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: leanakache <leanakache@student.42.fr>      +#+  +:+       +#+        */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 15:11:27 by leanakache        #+#    #+#             */
-/*   Updated: 2026/02/19 22:00:52 by leanakache       ###   ########.fr       */
+/*   Updated: 2026/03/21 19:46:17 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ double BitcoinExchange::getRate(const std::string & date) const
 {
     std::map<std::string, double>::const_iterator it = database.lower_bound(date);
 
-    if (it == database.end() || it->first != date)
+    if (it == database.begin())
+        it++;
+    else if (it == database.end() || it->first != date)
         --it;
     return (it->second);
 }
@@ -56,7 +58,7 @@ bool checkRate(std::string rate)
 
 bool BitcoinExchange::loadDatabase(const std::string &filename)
 {
-    std::ifstream file(filename);
+    std::ifstream file(filename.c_str());
     std::string line;
     int index = 0;
 
@@ -86,14 +88,24 @@ bool BitcoinExchange::loadDatabase(const std::string &filename)
     return true ;
 }
 
+BitcoinExchange &::BitcoinExchange::operator=(const BitcoinExchange & other)
+{
+    if (this != &other)
+    {
+        this->database = other.database;
+    }
+    return (*this);
+}
+
+BitcoinExchange::BitcoinExchange(const BitcoinExchange & other)
+{
+    this->database = other.database;
+}
+
 BitcoinExchange::~BitcoinExchange(void)
 {
-    //std::cout << "Destructor called" << std::endl;
-    //Map est automatiquement créée et vide
 }
 
 BitcoinExchange::BitcoinExchange(void)
 {
-    //std::cout << "Constructor by default called" << std::endl;
-    //Map est automatiquement créée et vide
 }

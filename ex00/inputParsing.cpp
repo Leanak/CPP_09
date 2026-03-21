@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inputParsing.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: leanakache <leanakache@student.42.fr>      +#+  +:+       +#+        */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 12:47:44 by leanakache        #+#    #+#             */
-/*   Updated: 2026/02/19 21:59:55 by leanakache       ###   ########.fr       */
+/*   Updated: 2026/03/21 19:47:29 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void errorMsg(std::string message)
 {
-    std::cout << message << std::endl;
+    std::cerr << message << std::endl;
 }
 
 std::string trim(std::string line, const std::string toTrim)
@@ -28,35 +28,9 @@ std::string trim(std::string line, const std::string toTrim)
 
 bool checkValue(std::string & line)
 {
-    //int dotCount = 0;
-    //bool hasDigit = false; 
-
     if (line.empty())
         return (errorMsg("Error: bad value => " + line), false);
-    /* 
-    for (size_t i = 0; i < line.length(); i++)
-    {
-        if (line[i] == '.')
-        {
-            dotCount++;
-            if (dotCount > 1)
-                return (errorMsg("Error: bad value => " + line), false);
-        }
-        else if (isdigit(static_cast<unsigned char>(line[i])))
-            hasDigit = true ;    
-        else
-        {
-            std::cout << "HERE" << std::endl;
-            return (errorMsg("Error: bad value => " + line), false);
-        }   
-    }
 
-    if (!hasDigit)
-    {
-        std::cout << "HERE" << std::endl;
-        return (errorMsg("Error: bad value => " + line), false);
-    }     */
-    
     char *end;
 
     double number = std::strtod(line.c_str(), &end);
@@ -88,9 +62,9 @@ bool checkDate(std::string & line)
         if (!isdigit(static_cast<unsigned char>(line[i])))
             return (errorMsg("Error: bad date format => " + line), false);
     }
-    int year = std::stoi(line.substr(0, 4));
-    int month = std::stoi(line.substr(5, 2));
-    int day = std::stoi(line.substr(8, 2));
+    int year = std::strtol(line.substr(0, 4).c_str(), NULL, 10);
+    int month = std::strtol(line.substr(5, 2).c_str(), NULL, 10);
+    int day = std::strtol(line.substr(8, 2).c_str(), NULL, 10);
 
     if (year < 0)
         return (errorMsg("Error: bad year => " + line), false);
@@ -138,8 +112,6 @@ bool checkFormat(std::string & line, BitcoinExchange & database)
     if (date.empty() || value.empty())
         return false ; 
     
-    //std::cout << "Date: " << date << std::endl;
-    //std::cout << "Value: " << value << std::endl;
     double trueValue = std::strtod(value.c_str(), NULL);
     
     if (!checkDate(date) || !checkValue(value))
@@ -167,7 +139,6 @@ bool    parseFile(char *file, BitcoinExchange & database)
         }
         if (!checkFormat(line, database))
         {
-            //return (false);
             continue ;
         }
     }

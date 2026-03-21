@@ -3,21 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   BitcoinExchange.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: leanakache <leanakache@student.42.fr>      +#+  +:+       +#+        */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/08 00:55:20 by leanakache        #+#    #+#             */
-/*   Updated: 2026/02/19 21:59:23 by leanakache       ###   ########.fr       */
+/*   Updated: 2026/03/21 14:54:25 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
-#include <cstdbool>
 #include <iostream>
 #include <fstream>
 #include <filesystem>
 #include <cstdio>
 #include <map>
+#include <cstdlib>
+#include <limits>
 
 
 #define RED     "\033[0;91m"
@@ -48,8 +49,8 @@ class BitcoinExchange
         //Charger database
         bool loadDatabase(const std::string &filename);
         void printDatabase(void);
-        // constructeur copie
-        //Operateur = 
+        BitcoinExchange &operator=(const BitcoinExchange & other);
+        BitcoinExchange(const BitcoinExchange & other);
         BitcoinExchange(void);
         ~BitcoinExchange(void);
 };

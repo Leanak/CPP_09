@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 14:19:22 by lenakach          #+#    #+#             */
-/*   Updated: 2026/03/20 19:57:52 by lenakach         ###   ########.fr       */
+/*   Updated: 2026/03/21 15:05:31 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@
 class PmergeMe
 {
   public:
+	PmergeMe &operator=(const PmergeMe & other);
+	PmergeMe(const PmergeMe & other);
 	PmergeMe(void);
 	~PmergeMe(void);
 
